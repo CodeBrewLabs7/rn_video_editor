@@ -150,7 +150,7 @@ const RangeSliderTrimmer = forwardRef((props, ref) => {
         <Animated.View style={[sliderStyle, styles.sliderFront]}>
           <View style={{flexDirection: 'row'}}>
             {frames.map((frame, index) => {
-              return !!frame?.uri ? (
+              return frame?.uri ? (
                 <Image
                   key={index}
                   style={{
