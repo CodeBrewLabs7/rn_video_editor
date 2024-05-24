@@ -24,15 +24,10 @@ The React Native Video Editor provides functionalities for:
 - Cutting video segments using FFmpeg
 
 <div align="center">
-  <img src="docs/assets/singleTrim.png" alt="Map Screenshot" title="Map Screenshot" width="25%">
-</div>
+  <img src="docs/assets/singleTrim.png" alt=" Screenshot" title=" Screenshot" width="25%">
+  <img src="docs/assets/multipleVideo.png" alt=" Screenshot" title=" Screenshot" width="25%">
 
-<div align="center">
-  <img src="docs/assets/multipleVideo.png" alt="Map Screenshot" title="Map Screenshot" width="25%">
-</div>
-
-<div align="center">
-  <img src="docs/assets/video_compress.mp4" alt="Map Screenshot" title="Map Screenshot" width="25%">
+  <img src="docs/assets/videoExample.gif" alt=" Screenshot" title="Video Screenshot" width="25%">
 </div>
 
 ## Installation
