@@ -4,14 +4,13 @@ import React, {
   useImperativeHandle,
   useMemo,
   useRef,
-  useState
 } from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
-import { PanGestureHandler } from 'react-native-gesture-handler';
+import {Dimensions, StyleSheet, View} from 'react-native';
+import {PanGestureHandler} from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedGestureHandler,
   useAnimatedStyle,
-  useSharedValue
+  useSharedValue,
 } from 'react-native-reanimated';
 
 const {height, width} = Dimensions.get('screen');
@@ -52,8 +51,8 @@ const RangeSlider = forwardRef((props, ref) => {
       sliderWidth: sliderWidth,
       uri: slider.uri,
     });
-  })
-  
+  });
+
   const createGestureHandler = useCallback(
     (index, isSecond) =>
       useAnimatedGestureHandler({
