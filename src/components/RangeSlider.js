@@ -43,19 +43,17 @@ const RangeSlider = forwardRef((props, ref) => {
     uri,
   });
 
-  const [sliders, setSliders] = useState(
-    allVideos.map(slider => {
-      const sliderWidth = (slider.max / maxDuration) * baseSliderWidth;
-      totalWidth = totalWidth + sliderWidth;
-      return createSliderState({
-        min: slider.min,
-        max: slider.max,
-        sliderWidth: sliderWidth,
-        uri: slider.uri,
-      });
-    }),
-  );
-
+  const sliders = allVideos.map(slider => {
+    const sliderWidth = (slider.max / maxDuration) * baseSliderWidth;
+    totalWidth = totalWidth + sliderWidth;
+    return createSliderState({
+      min: slider.min,
+      max: slider.max,
+      sliderWidth: sliderWidth,
+      uri: slider.uri,
+    });
+  })
+  
   const createGestureHandler = useCallback(
     (index, isSecond) =>
       useAnimatedGestureHandler({
