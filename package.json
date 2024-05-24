@@ -9,7 +9,7 @@
     "start": "npx react-native start --experimental-debugger",
     "test": "jest",
     "tsc": "node_modules/typescript/bin/tsc --noEmit",
-    "precommit": "concurrently 'npm run lint'",
+    "precommit": "concurrently 'npm run tsc' 'npm run lint'",
     "prepare": "husky install"
   },
   "dependencies": {
