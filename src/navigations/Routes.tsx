@@ -1,5 +1,5 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import * as Screens from '../screens';
 
 import React from 'react';
@@ -14,7 +14,7 @@ const Stack = createNativeStackNavigator<RouteStackParamList>();
 const Routes = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Navigator>
         <Stack.Screen name="Home" component={Screens.Home} />
         <Stack.Screen name="Editor" component={Screens.Editor} />
         <Stack.Screen name="Trimmer" component={Screens.Trimmer} />

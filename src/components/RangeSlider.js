@@ -4,43 +4,33 @@ import React, {
   useImperativeHandle,
   useMemo,
   useRef,
-  useState,
+  useState
 } from 'react';
-import {
-  Dimensions,
-  Image,
-  Platform,
-  StyleSheet,
-  View,
-  ScrollView,
-} from 'react-native';
-import {PanGestureHandler} from 'react-native-gesture-handler';
+import { Dimensions, StyleSheet, View } from 'react-native';
+import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, {
-  Easing,
-  runOnJS,
   useAnimatedGestureHandler,
   useAnimatedStyle,
-  useSharedValue,
-  withTiming,
+  useSharedValue
 } from 'react-native-reanimated';
 
 const {height, width} = Dimensions.get('screen');
 
+const thumbWidth = 2;
+const centerGap = width / 2; // Gap on left and right sides
+const baseSliderWidth = width / 1.2;
+let totalWidth = 0;
+
 const RangeSlider = forwardRef((props, ref) => {
   const {
-    onValueChange1,
-    onValueChange2,
+    // onValueChange1,
+    // onValueChange2,
     allVideos = [],
     maxDuration = 0,
     videoPlayerRef,
   } = props;
 
-  const thumbWidth = 2;
-  const centerGap = width / 2; // Gap on left and right sides
-  const baseSliderWidth = width / 1.2;
-
   const scrollViewRef = useRef(null);
-  const [currentScrollPosition, setCurrentScrollPosition] = useState(0);
 
   const createSliderState = ({min, max, sliderWidth, uri}) => ({
     position: useSharedValue(0),
@@ -53,8 +43,6 @@ const RangeSlider = forwardRef((props, ref) => {
     uri,
   });
 
-  var totalWidth = 0;
-
   const [sliders, setSliders] = useState(
     allVideos.map(slider => {
       const sliderWidth = (slider.max / maxDuration) * baseSliderWidth;
@@ -66,37 +54,6 @@ const RangeSlider = forwardRef((props, ref) => {
         uri: slider.uri,
       });
     }),
-  );
-
-  console.log('totalWidth', totalWidth);
-
-  const onValueChange = useCallback(
-    (index, isSecond) => {
-      const slider = sliders[index];
-      const newMin =
-        slider.min +
-        Math.floor(
-          slider.position.value /
-            (slider.sliderWidth / (slider.max - slider.min)),
-        );
-      const newMax =
-        slider.min +
-        Math.floor(
-          slider.position2.value /
-            (slider.sliderWidth / (slider.max - slider.min)),
-        );
-      setSliders(prev =>
-        prev.map((s, i) =>
-          i === index ? {...s, selectedMin: newMin, selectedMax: newMax} : s,
-        ),
-      );
-      if (isSecond) {
-        runOnJS(onValueChange2)({min: newMin, max: newMax});
-      } else {
-        runOnJS(onValueChange1)({min: newMin, max: newMax});
-      }
-    },
-    [onValueChange1, onValueChange2, sliders],
   );
 
   const createGestureHandler = useCallback(
@@ -132,7 +89,7 @@ const RangeSlider = forwardRef((props, ref) => {
           }
         },
       }),
-    [sliders, onValueChange],
+    [sliders],
   );
 
   const createAnimatedStyle = useCallback(
@@ -167,23 +124,14 @@ const RangeSlider = forwardRef((props, ref) => {
     [sliders],
   );
 
-  console.log('sliders', sliders);
+  console.log('selectedValues', selectedValues);
 
   const onRun = ({currentTime, startTime, endTime}) => {
     const relativeTime = currentTime - startTime;
     const scrollPosition = (relativeTime / endTime) * baseSliderWidth;
-
-    // sliderPinPosition.value = withTiming(
-    //   (relativeTime / rangeDuration) * 327,
-    //   {
-    //     duration: 500,
-    //     easing: Easing.linear,
-    //   },
-    // );
-
-    // Scroll the ScrollView horizontally
+    console.log('scrollPosition', scrollPosition);
     scrollViewRef.current?.scrollTo({
-      x: currentScrollPosition + scrollPosition,
+      x: scrollPosition,
       animated: true,
     });
   };
@@ -194,32 +142,27 @@ const RangeSlider = forwardRef((props, ref) => {
 
   const handleScrollBeginDrag = useCallback(() => {
     videoPlayerRef.current.pause();
-  }, []);
+  }, [videoPlayerRef]);
 
-  const handleScrollEndDrag = useCallback(({nativeEvent}) => {
-    let current = nativeEvent.contentOffset.x;
+  const handleScrollEndDrag = useCallback(
+    ({nativeEvent}) => {
+      let current = nativeEvent.contentOffset.x;
 
-    const newMin = 0 + Math.floor(current / (327.5 / (maxDuration - 0)));
-    console.log('newMin', newMin);
+      const scrollPosition =
+        0 + Math.floor(current / (totalWidth / (maxDuration - 0)));
 
-    videoPlayerRef.current.seek(newMin);
+      videoPlayerRef.current.seek(scrollPosition);
+    },
+    [videoPlayerRef, maxDuration],
+  );
 
-    // alert(`drag ${current}`);
-
-    setCurrentScrollPosition(current);
-  }, []);
-
-  const handleOnScroll = ({nativeEvent}) => {
-    let current = nativeEvent.contentOffset.x;
-
-    const newMin = 0 + Math.floor(current / (327.5 / (maxDuration - 0)));
-    console.log('newMin', newMin);
-
-    // videoPlayerRef.current.seek(newMin);
-
-    // alert(`drag ${current}`);
-
-    // setCurrentScrollPosition(current);
+  const handleOnScroll = ({}) => {
+    // let current = nativeEvent.contentOffset.x;
+    // const newMin = 0 + Math.floor(current / (327.5 / (maxDuration - 0)));
+    // console.log('newMin', newMin);
+    // // videoPlayerRef.current.seek(newMin);
+    // // alert(`drag ${current}`);
+    // // setCurrentScrollPosition(current);
   };
 
   const handleOnMomentumScrollEnd = useCallback(({nativeEvent}) => {
@@ -228,15 +171,17 @@ const RangeSlider = forwardRef((props, ref) => {
     // setCurrentScrollPosition(current);
   }, []);
 
+  console.log('sliderssliderssliders', sliders);
+
   return (
     <>
       <View style={styles.horizontalLine} />
-      <ScrollView
+      <Animated.ScrollView
         horizontal
         ref={scrollViewRef}
         onScrollBeginDrag={handleScrollBeginDrag}
-        // onScrollEndDrag={handleScrollEndDrag}
-        // onMomentumScrollEnd={handleOnMomentumScrollEnd}
+        onScrollEndDrag={handleScrollEndDrag}
+        onMomentumScrollEnd={handleOnMomentumScrollEnd}
         onScroll={handleOnScroll}
         contentContainerStyle={{
           paddingHorizontal: centerGap,
@@ -291,7 +236,7 @@ const RangeSlider = forwardRef((props, ref) => {
             );
           })}
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
       <Animated.View style={[styles.sliderPin, {marginLeft: centerGap}]} />
     </>
   );
@@ -306,7 +251,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: 45,
     marginTop: 50,
-    // marginRight: 16,
   },
   horizontalLine: {
     height: 1.5,

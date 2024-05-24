@@ -1,12 +1,14 @@
 import React from 'react';
-import {View} from 'react-native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import Routes from './navigations/Routes';
+
+const style = {flex: 1};
 
 const App = (): React.JSX.Element => {
   return (
-    <View style={{flex: 1}}>
+    <GestureHandlerRootView style={style}>
       <Routes />
-    </View>
+    </GestureHandlerRootView>
   );
 };
 

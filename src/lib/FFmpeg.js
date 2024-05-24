@@ -1,3 +1,6 @@
+/* eslint-disable */
+
+import {FRAME_PER_SEC, FRAME_WIDTH} from '@utils/Constants';
 import {
   FFmpegKit,
   FFmpegKitConfig,
@@ -5,26 +8,24 @@ import {
   ReturnCode,
 } from 'ffmpeg-kit-react-native';
 import RNFS from 'react-native-fs';
-import { FRAME_PER_SEC, FRAME_WIDTH } from '../utils/Constants';
 
 class FFmpegWrapper {
-  
   static getFrames(
     fileName,
     videoURI,
     frameNumber,
     successCallback,
     errorCallback,
-    onFrameGenerated
+    onFrameGenerated,
   ) {
     let outputImagePath = `${RNFS.CachesDirectoryPath}/${fileName}_%4d.png`;
     const ffmpegCommand = `-ss 0 -i ${videoURI} -vf "fps=${FRAME_PER_SEC}/1:round=up,scale=${FRAME_WIDTH}:-2" -vframes ${frameNumber} ${outputImagePath}`;
 
     FFmpegKit.executeAsync(
       ffmpegCommand,
-      async (session) => {
+      async session => {
         const state = FFmpegKitConfig.sessionStateToString(
-          await session.getState()
+          await session.getState(),
         );
         const returnCode = await session.getReturnCode();
         const failStackTrace = await session.getFailStackTrace();
@@ -32,7 +33,7 @@ class FFmpegWrapper {
 
         if (ReturnCode.isSuccess(returnCode)) {
           console.log(
-            `Encode completed successfully in ${duration} milliseconds;.`
+            `Encode completed successfully in ${duration} milliseconds;.`,
           );
           successCallback(outputImagePath);
         } else {
@@ -40,24 +41,24 @@ class FFmpegWrapper {
           console.log(
             `Encode failed with state ${state} and rc ${returnCode}.${
               (failStackTrace, '\\n')
-            }`
+            }`,
           );
           errorCallback();
         }
       },
-      (log) => {},
-      (statistics) => {
+      log => {},
+      statistics => {
         const processedFrames = statistics.getVideoFrameNumber();
         const frameUri = `${outputImagePath.replace(
           '%4d',
-          String(processedFrames).padStart(4, '0')
+          String(processedFrames).padStart(4, '0'),
         )}`;
         onFrameGenerated(frameUri, processedFrames, frameNumber);
-      }
-    ).then((session) =>
+      },
+    ).then(session =>
       console.log(
-        `Async FFmpeg process started with sessionId ${session.getSessionId()}.`
-      )
+        `Async FFmpeg process started with sessionId ${session.getSessionId()}.`,
+      ),
     );
   }
 
@@ -68,7 +69,7 @@ class FFmpegWrapper {
     audioURI,
     successCallback,
     errorCallback,
-    progressCallback
+    progressCallback,
   ) {
     let outputVideoPath = `${RNFS.CachesDirectoryPath}/${fileName}`;
 
@@ -76,9 +77,9 @@ class FFmpegWrapper {
 
     FFmpegKit.executeAsync(
       ffmpegCommand,
-      async (session) => {
+      async session => {
         const state = FFmpegKitConfig.sessionStateToString(
-          await session.getState()
+          await session.getState(),
         );
         const returnCode = await session.getReturnCode();
         const failStackTrace = await session.getFailStackTrace();
@@ -86,26 +87,26 @@ class FFmpegWrapper {
 
         if (ReturnCode.isSuccess(returnCode)) {
           console.log(
-            `Encode completed successfully in ${duration} milliseconds.`
+            `Encode completed successfully in ${duration} milliseconds.`,
           );
           successCallback(outputVideoPath);
         } else {
           console.log('Encode failed. Please check log for the details.');
           console.log(
-            `Encode failed with state ${state} and rc ${returnCode}. \n${failStackTrace}`
+            `Encode failed with state ${state} and rc ${returnCode}. \n${failStackTrace}`,
           );
           errorCallback();
         }
       },
-      (log) => {},
-      (statistics) => {
+      log => {},
+      statistics => {
         const time = statistics.getTime();
         progressCallback(time);
-      }
-    ).then((session) =>
+      },
+    ).then(session =>
       console.log(
-        `Async FFmpeg process started with sessionId ${session.getSessionId()}.`
-      )
+        `Async FFmpeg process started with sessionId ${session.getSessionId()}.`,
+      ),
     );
   }
 
@@ -115,7 +116,7 @@ class FFmpegWrapper {
     watermarkURI,
     successCallback,
     errorCallback,
-    progressCallback
+    progressCallback,
   ) {
     const uniqueSuffix = Date.now();
     let outputVideoPath = `${RNFS.CachesDirectoryPath}/${
@@ -126,9 +127,9 @@ class FFmpegWrapper {
 
     FFmpegKit.executeAsync(
       ffmpegCommand,
-      async (session) => {
+      async session => {
         const state = FFmpegKitConfig.sessionStateToString(
-          await session.getState()
+          await session.getState(),
         );
         const returnCode = await session.getReturnCode();
         const failStackTrace = await session.getFailStackTrace();
@@ -136,26 +137,26 @@ class FFmpegWrapper {
 
         if (ReturnCode.isSuccess(returnCode)) {
           console.log(
-            `Encode completed successfully in ${duration} milliseconds.`
+            `Encode completed successfully in ${duration} milliseconds.`,
           );
           successCallback(outputVideoPath);
         } else {
           console.log('Encode failed. Please check log for the details.');
           console.log(
-            `Encode failed with state ${state} and rc ${returnCode}. \n${failStackTrace}`
+            `Encode failed with state ${state} and rc ${returnCode}. \n${failStackTrace}`,
           );
           errorCallback();
         }
       },
-      (log) => {},
-      (statistics) => {
+      log => {},
+      statistics => {
         const time = statistics.getTime();
         progressCallback(time);
-      }
-    ).then((session) =>
+      },
+    ).then(session =>
       console.log(
-        `Async FFmpeg process started with sessionId ${session.getSessionId()}.`
-      )
+        `Async FFmpeg process started with sessionId ${session.getSessionId()}.`,
+      ),
     );
   }
 
@@ -164,14 +165,14 @@ class FFmpegWrapper {
     videoURI,
     successCallback,
     errorCallback,
-    progressCallback
+    progressCallback,
   ) {
     let outputVideoPath = `${RNFS.CachesDirectoryPath}/${fileName}`;
 
     // First, use FFprobe to check for audio streams
     FFprobeKit.execute(
-      `-v error -show_streams -select_streams a -of json ${videoURI}`
-    ).then(async (session) => {
+      `-v error -show_streams -select_streams a -of json ${videoURI}`,
+    ).then(async session => {
       const returnCode = await session.getReturnCode();
       let ffmpegCommand;
 
@@ -186,34 +187,34 @@ class FFmpegWrapper {
 
         FFmpegKit.executeAsync(
           ffmpegCommand,
-          async (session) => {
+          async session => {
             const returnCode = await session.getReturnCode();
             const failStackTrace = await session.getFailStackTrace();
             const duration = await session.getDuration();
 
             if (ReturnCode.isSuccess(returnCode)) {
               console.log(
-                `Encode completed successfully in ${duration} milliseconds.`
+                `Encode completed successfully in ${duration} milliseconds.`,
               );
               successCallback(outputVideoPath);
             } else {
               console.log('Encode failed. Please check log for the details.');
               console.log(
-                `Encode failed with state ${state} and rc ${returnCode}. \n${failStackTrace}`
+                `Encode failed with state and rc ${returnCode}. \n${failStackTrace}`,
               );
               errorCallback();
             }
           },
-          (log) => {
+          log => {
             console.log(log.getMessage());
           },
-          (statistics) => {
+          statistics => {
             const time = statistics.getTime();
             progressCallback(time);
-          }
-        ).then((session) => {
+          },
+        ).then(session => {
           console.log(
-            `Async FFmpeg process started with sessionId ${session.getSessionId()}.`
+            `Async FFmpeg process started with sessionId ${session.getSessionId()}.`,
           );
         });
       } else {
@@ -230,7 +231,7 @@ class FFmpegWrapper {
     duration,
     successCallback,
     errorCallback,
-    progressCallback
+    progressCallback,
   ) {
     const outputVideoPath = `${RNFS.CachesDirectoryPath}/${fileName}_cut.mp4`;
 
@@ -239,9 +240,9 @@ class FFmpegWrapper {
     // Execute the FFmpeg command
     FFmpegKit.executeAsync(
       ffmpegCommand,
-      async (session) => {
+      async session => {
         const state = FFmpegKitConfig.sessionStateToString(
-          await session.getState()
+          await session.getState(),
         );
         const returnCode = await session.getReturnCode();
         const failStackTrace = await session.getFailStackTrace();
@@ -251,21 +252,21 @@ class FFmpegWrapper {
         } else {
           console.log('Encode failed. Please check log for the details.');
           console.log(
-            `Encode failed with state ${state} and rc ${returnCode}. \n${failStackTrace}`
+            `Encode failed with state ${state} and rc ${returnCode}. \n${failStackTrace}`,
           );
           errorCallback();
         }
       },
-      (log) => {
+      log => {
         console.log(log.getMessage());
       },
-      (statistics) => {
+      statistics => {
         const time = statistics.getTime();
         progressCallback(time);
-      }
-    ).then((session) => {
+      },
+    ).then(session => {
       console.log(
-        `Async FFmpeg process for cutting clip started with sessionId ${session.getSessionId()}.`
+        `Async FFmpeg process for cutting clip started with sessionId ${session.getSessionId()}.`,
       );
     });
   }
@@ -274,7 +275,7 @@ class FFmpegWrapper {
     audioURI,
     successCallback,
     errorCallback,
-    progressCallback
+    progressCallback,
   ) {
     let outputVideoPath = `${RNFS.CachesDirectoryPath}/final_video.mp4`;
     const fileListPath = `${RNFS.CachesDirectoryPath}/filelist.txt`;
@@ -287,9 +288,9 @@ class FFmpegWrapper {
 
     FFmpegKit.executeAsync(
       ffmpegCommand,
-      async (session) => {
+      async session => {
         const state = FFmpegKitConfig.sessionStateToString(
-          await session.getState()
+          await session.getState(),
         );
         const returnCode = await session.getReturnCode();
         const failStackTrace = await session.getFailStackTrace();
@@ -297,28 +298,28 @@ class FFmpegWrapper {
 
         if (ReturnCode.isSuccess(returnCode)) {
           console.log(
-            `Encode completed successfully in ${duration} milliseconds.`
+            `Encode completed successfully in ${duration} milliseconds.`,
           );
           successCallback(outputVideoPath);
         } else {
           console.log('Encode failed. Please check log for the details.');
           console.log(
-            `Encode failed with state ${state} and rc ${returnCode}. \n${failStackTrace}`
+            `Encode failed with state ${state} and rc ${returnCode}. \n${failStackTrace}`,
           );
           errorCallback();
         }
       },
-      (log) => {
+      log => {
         console.log(log.getMessage());
       },
-      (statistics) => {
+      statistics => {
         // const time = statistics.getTime();
         // progressCallback(time);
-      }
-    ).then((session) =>
+      },
+    ).then(session =>
       console.log(
-        `Async FFmpeg process started with sessionId ${session.getSessionId()}.`
-      )
+        `Async FFmpeg process started with sessionId ${session.getSessionId()}.`,
+      ),
     );
   }
 }

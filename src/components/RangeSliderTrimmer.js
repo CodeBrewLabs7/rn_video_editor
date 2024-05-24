@@ -10,7 +10,10 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-const RangeSlider = forwardRef((props, ref) => {
+const SLIDER_HEIGHT = 60;
+const SLIDER_GAP = 25;
+
+const RangeSliderTrimmer = forwardRef((props, ref) => {
   const {
     sliderWidth,
     min,
@@ -33,9 +36,9 @@ const RangeSlider = forwardRef((props, ref) => {
       const newValue = ctx.startX + e.translationX;
       if (newValue < 0) {
         position.value = 0;
-      } else if (newValue > position2.value - 25) {
+      } else if (newValue > position2.value - SLIDER_GAP) {
         // Adjusted boundary condition
-        position.value = position2.value - 25;
+        position.value = position2.value - SLIDER_GAP;
       } else {
         position.value = newValue;
       }
@@ -58,9 +61,9 @@ const RangeSlider = forwardRef((props, ref) => {
       const newValue = ctx.startX + e.translationX;
       if (newValue > sliderWidth) {
         position2.value = sliderWidth;
-      } else if (newValue < position.value + 25) {
+      } else if (newValue < position.value + SLIDER_GAP) {
         // Adjusted boundary condition
-        position2.value = position.value + 25;
+        position2.value = position.value + SLIDER_GAP;
       } else {
         position2.value = newValue;
       }
@@ -90,7 +93,7 @@ const RangeSlider = forwardRef((props, ref) => {
     transform: [{translateX: sliderPinPosition.value}],
   }));
 
-  const onRun = (currentTime, startTime, endTime) => {
+  const onRun = ({currentTime, startTime, endTime}) => {
     const rangeDuration = endTime - startTime;
     const relativeTime = currentTime - startTime;
     const sliderRange = position2.value - position.value;
@@ -102,6 +105,7 @@ const RangeSlider = forwardRef((props, ref) => {
       },
     );
   };
+
   useImperativeHandle(ref, () => ({
     onRun,
   }));
@@ -109,20 +113,21 @@ const RangeSlider = forwardRef((props, ref) => {
   return (
     <>
       <View style={[styles.sliderContainer, {width: sliderWidth}]}>
+        {/* Slider Back View */}
         <View style={[styles.sliderBack, {width: sliderWidth}]}>
           <View style={{flexDirection: 'row'}}>
             {frames.map((frame, index) => {
-              return !!frame?.uri ? (
+              return frame?.uri ? (
                 <Image
                   key={index}
                   style={{
                     opacity: 0.4,
-                    height: 60,
+                    height: SLIDER_HEIGHT,
                     width: sliderWidth / frames.length,
                   }}
                   source={{
                     uri:
-                      Platform['OS'] == 'android'
+                      Platform['OS'] === 'android'
                         ? 'file://' + frame.uri
                         : frame.uri,
                   }}
@@ -132,7 +137,7 @@ const RangeSlider = forwardRef((props, ref) => {
                   key={index}
                   style={{
                     opacity: 0.4,
-                    height: 60,
+                    height: SLIDER_HEIGHT,
                     width: sliderWidth / frames.length,
                   }}
                 />
@@ -140,6 +145,8 @@ const RangeSlider = forwardRef((props, ref) => {
             })}
           </View>
         </View>
+
+        {/* Slider Front View */}
         <Animated.View style={[sliderStyle, styles.sliderFront]}>
           <View style={{flexDirection: 'row'}}>
             {frames.map((frame, index) => {
@@ -147,12 +154,12 @@ const RangeSlider = forwardRef((props, ref) => {
                 <Image
                   key={index}
                   style={{
-                    height: 60,
+                    height: SLIDER_HEIGHT,
                     width: sliderWidth / frames.length,
                   }}
                   source={{
                     uri:
-                      Platform['OS'] == 'android'
+                      Platform['OS'] === 'android'
                         ? 'file://' + frame.uri
                         : frame.uri,
                   }}
@@ -161,7 +168,7 @@ const RangeSlider = forwardRef((props, ref) => {
                 <View
                   key={index}
                   style={{
-                    height: 60,
+                    height: SLIDER_HEIGHT,
                     width: sliderWidth / frames.length,
                   }}
                 />
@@ -176,14 +183,14 @@ const RangeSlider = forwardRef((props, ref) => {
           <Animated.View style={[animatedStyle, styles.thumb]} />
         </PanGestureHandler>
         <PanGestureHandler onGestureEvent={gestureHandler2}>
-          <Animated.View style={[animatedStyle2, styles.thumb, {left: 0}]} />
+          <Animated.View style={[animatedStyle2, {...styles.thumb, left: 0}]} />
         </PanGestureHandler>
       </View>
     </>
   );
 });
 
-export default React.memo(RangeSlider);
+export default React.memo(RangeSliderTrimmer);
 
 const styles = StyleSheet.create({
   sliderContainer: {
@@ -191,32 +198,30 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   sliderBack: {
-    height: 60,
+    height: SLIDER_HEIGHT,
     backgroundColor: '#DFEAFB',
     // borderRadius: 20,
   },
   sliderFront: {
-    height: 60,
+    height: SLIDER_HEIGHT,
     backgroundColor: '#3F4CF6',
     // borderRadius: 20,
     position: 'absolute',
-    overflow:'hidden'
+    overflow: 'hidden',
   },
   sliderPin: {
-    height: 60,
+    height: SLIDER_HEIGHT,
     backgroundColor: 'red',
     // borderRadius: 20,
     position: 'absolute',
     width: 2,
-    overflow:'hidden'
+    overflow: 'hidden',
   },
   thumb: {
     left: -10,
     width: 10,
-    height: 60,
+    height: SLIDER_HEIGHT,
     position: 'absolute',
     backgroundColor: 'yellow',
-    // borderWidth: 5,
-    // borderRadius: 10,
   },
 });

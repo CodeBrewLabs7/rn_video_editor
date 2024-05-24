@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TextProps, useColorScheme } from 'react-native';
+import {StyleSheet, Text, TextProps, useColorScheme} from 'react-native';
 
 const stylesFun = (isDarkMode: boolean) => {
   const styles = StyleSheet.create({
