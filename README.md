@@ -10,8 +10,9 @@
 
 [Introduction](#introduction) •
 [Installation](#installation) •
+[Features](#features) •
 [Contributing](#contributing) •
-[License](#license)
+[License](#license) •
 
 </div>
 
@@ -72,10 +73,53 @@ To get started with the React Native Video Editor, follow these steps:
     yarn ios          # For iOS
     ```
 
-### FFmpeg Integration
-Ensure FFmpeg is properly integrated for handling video processing tasks. Refer to the official FFmpeg documentation for more details.
-[ffmpeg-kit-react-native](https://www.npmjs.com/package/ffmpeg-kit-react-native)
 
+## Libraries Using 📚
+
+#### Ensure all pacakges properly integrated. Refer to the official documentation for more details.
+
+<table>
+<tr>
+<td>
+
+- [@react-navigation/native](https://www.npmjs.com/package/@react-navigation/native)
+- [@react-navigation/native-stack](https://www.npmjs.com/package/@react-navigation/native-stack)
+- [react-native-screens](https://www.npmjs.com/package/react-native-screens)
+- [react-native-safe-area-context](https://www.npmjs.com/package/react-native-safe-area-context)
+- [react-native-gesture-handler](https://www.npmjs.com/package/react-native-gesture-handler)
+</td>
+
+<td>
+
+- [react-native-reanimated](https://www.npmjs.com/package/react-native-reanimated)
+- [react-native-image-crop-picker](https://www.npmjs.com/package/react-redux)
+- [react-native-video](https://www.npmjs.com/package/@reduxjs/toolkit)
+- [ffmpeg-kit-react-native](https://www.npmjs.com/package/ffmpeg-kit-react-native)
+- [react-native-fs](https://www.npmjs.com/package/@tanstack/react-query)
+
+  
+</td>
+</tr>
+</table>
+
+
+
+## Features
+
+### To-Do List
+
+#### Pending
+- [ ] Feature 1: Multiple video merge
+- [ ] Feature 2: Add Music to video
+- [ ] Feature 3: Add sticker/text to video
+- [ ] Feature 4: Split video
+- [ ] Feature 5: Re-order video
+
+#### Done
+- [x] Feature A: Trim Single Video
+- [x] Feature B: Add Multiple Video and Play to the last one.
+
+See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
 ## Contributing
 
