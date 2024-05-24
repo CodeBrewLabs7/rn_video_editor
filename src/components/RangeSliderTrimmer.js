@@ -127,7 +127,7 @@ const RangeSliderTrimmer = forwardRef((props, ref) => {
                   }}
                   source={{
                     uri:
-                      Platform['OS'] === 'android'
+                      Platform.OS === 'android'
                         ? 'file://' + frame.uri
                         : frame.uri,
                   }}
@@ -159,7 +159,7 @@ const RangeSliderTrimmer = forwardRef((props, ref) => {
                   }}
                   source={{
                     uri:
-                      Platform['OS'] === 'android'
+                      Platform.OS === 'android'
                         ? 'file://' + frame.uri
                         : frame.uri,
                   }}

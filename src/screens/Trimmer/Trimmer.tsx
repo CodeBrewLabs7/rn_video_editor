@@ -115,7 +115,7 @@ const Trimmer = () => {
     let tempFrames = Array(numberOfFrames).fill({
       status: FRAME_STATUS.LOADING.name.description,
     });
-    
+
     setFrames(tempFrames);
 
     if (selectedVideo) {
