@@ -10,8 +10,6 @@
 
 [Introduction](#introduction) •
 [Installation](#installation) •
-[Example](#example) •
-[Documentation](#documentation) •
 [Contributing](#contributing) •
 [License](#license)
 
@@ -86,15 +84,7 @@ Ensure FFmpeg is properly integrated for handling video processing tasks. Refer 
 
 ## Contributing
 
-We welcome contributions from the community. To contribute, follow these steps:
-
-1. Fork the repository.
-2. Create a new branch: git checkout -b feature/your-feature-name
-3. Make your changes and commit them: git commit -m 'Add some feature'
-4. Push to the branch: git push origin feature/your-feature-name
-5. Submit a pull request.
-6. Please ensure your code follows the project's coding standards and includes appropriate documentation and tests.
-
+See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
 ## License
 
