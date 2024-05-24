@@ -1,79 +1,124 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+<h1 align="center">
+    <strong>react-native-video-editor</strong>
+</h1>
 
-# Getting Started
+<p align="center">
+   This is an ongoing project aimed at building an Instagram Reels editor 🎬 with all its features Into React Native 💙
+</p>
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+<div align="center">
 
-## Step 1: Start the Metro Server
+[Introduction](#introduction) •
+[Installation](#installation) •
+[Example](#example) •
+[Documentation](#documentation) •
+[Contributing](#contributing) •
+[License](#license)
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+</div>
 
-To start Metro, run the following command from the _root_ of your React Native project:
+## Introduction
 
-```bash
-# using npm
-npm start
+The React Native Video Editor provides functionalities for:
+- Trimming single videos
+- Editing multiple videos
+- Displaying video frames and timelines
+- Cutting video segments using FFmpeg
 
-# OR using Yarn
-yarn start
+<div align="center">
+  <img src="docs/assets/singleTrim.png" alt="Map Screenshot" title="Map Screenshot" width="25%">
+</div>
+
+<div align="center">
+  <img src="docs/assets/multipleVideo.png" alt="Map Screenshot" title="Map Screenshot" width="25%">
+</div>
+
+<div align="center">
+  <img src="docs/assets/video_compress.mp4" alt="Map Screenshot" title="Map Screenshot" width="25%">
+</div>
+
+## Installation
+
+To get started with the React Native Video Editor, follow these steps:
+
+### Prerequisites
+
+- Node.js (>=18.x)
+- React Native CLI or Expo CLI
+- Xcode (for iOS development)
+- Android Studio (for Android development)
+
+### Steps
+
+1. **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-username/react-native-video-editor.git
+    cd react-native-video-editor
+    ```
+
+2. **Install dependencies:**
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
+
+3. **Install iOS dependencies:**
+    ```bash
+    cd ios
+    pod install
+    cd ..
+    ```
+
+4. **Run the application:**
+    ```bash
+    npm run android   # For Android
+    npm run ios       # For iOS
+    # or
+    yarn android      # For Android
+    yarn ios          # For iOS
+    ```
+
+### FFmpeg Integration
+Ensure FFmpeg is properly integrated for handling video processing tasks. Refer to the official FFmpeg documentation for more details.
+[ffmpeg-kit-react-native](https://www.npmjs.com/package/ffmpeg-kit-react-native)
+
+
+## Contributing
+
+We welcome contributions from the community. To contribute, follow these steps:
+
+1. Fork the repository.
+2. Create a new branch: git checkout -b feature/your-feature-name
+3. Make your changes and commit them: git commit -m 'Add some feature'
+4. Push to the branch: git push origin feature/your-feature-name
+5. Submit a pull request.
+6. Please ensure your code follows the project's coding standards and includes appropriate documentation and tests.
+
+
+## License
+
 ```
+MIT License
 
-## Step 2: Start your Application
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+Copyright (c) 2024 Code Brew Labs
 
-### For Android
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-```bash
-# using npm
-npm run android
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-# OR using Yarn
-yarn android
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 ```
-
-### For iOS
-
-```bash
-# using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
-
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
-
-## Step 3: Modifying your App
-
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
